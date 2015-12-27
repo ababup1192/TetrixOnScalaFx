@@ -14,9 +14,21 @@ class Stage(size: (Int, Int)) {
 
   def moveRight() = moveBy(1.0, 0.0)
 
+  def rotateCW() = rotateBy(-math.Pi / 2.0)
+
+  private[this] def rotateBy(theta: Double): Stage = {
+    validate(
+      currentPiece.rotateBy(theta),
+      unload(currentPiece, blocks)) foreach { case (moved, unloaded) =>
+      blocks = load(moved, unloaded)
+      currentPiece = moved
+    }
+    this
+  }
+
   private[this] def moveBy(delta: (Double, Double)): Stage = {
     validate(currentPiece.moveBy(delta),
-    unload(currentPiece, blocks)).foreach{ case (moved, unloaded) =>
+      unload(currentPiece, blocks)).foreach { case (moved, unloaded) =>
       blocks = load(moved, unloaded)
       currentPiece = moved
     }

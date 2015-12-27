@@ -22,5 +22,9 @@ class StageSpec extends FlatSpec with Matchers {
       view.blocks.map(_.pos) should contain allOf((0, 0), (7, 17), (8, 17), (9, 17), (8, 18))
   }
 
+  "Roting to the current piece" should "change the blocks" in {
+    stage.rotateCW().
+      view.blocks.map(_.pos) should contain allOf((0, 0), (5, 18), (5, 17), (5, 16), (6, 17))
+  }
 
 }
