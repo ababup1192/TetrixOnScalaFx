@@ -2,8 +2,6 @@ package org.ababup1192.tetrix
 
 case class Block(pos: (Int, Int), kind: PieceKind)
 
-case class GameView(blocks: Seq[Block], gridSize: (Int, Int), current: Seq[Block])
-
 case class Piece(pos: (Double, Double), kind: PieceKind, locals: Seq[(Double, Double)]) {
   def current: Seq[Block] =
     locals map { case (x, y) =>
