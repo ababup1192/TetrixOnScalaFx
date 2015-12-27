@@ -17,6 +17,10 @@ class StageSpec extends FlatSpec with Matchers {
     stage.moveLeft().moveLeft().moveLeft().moveLeft().moveLeft().
       view.blocks.map(_.pos) should contain allOf((0, 0), (0, 17), (1, 17), (2, 17), (1, 18))
   }
+ "Moving to the right the current piece" should "not hit blocks" in {
+    stage.moveRight().moveRight().moveRight().moveRight().moveRight().
+      view.blocks.map(_.pos) should contain allOf((0, 0), (7, 17), (8, 17), (9, 17), (8, 18))
+  }
 
 
 }

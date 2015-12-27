@@ -15,11 +15,21 @@ class Stage(size: (Int, Int)) {
   def moveRight() = moveBy(1.0, 0.0)
 
   private[this] def moveBy(delta: (Double, Double)): Stage = {
-    val unloaded = unload(currentPiece, blocks)
-    val moved = currentPiece.moveBy(delta)
-    blocks = load(moved, unloaded)
-    currentPiece = moved
+    validate(currentPiece.moveBy(delta),
+    unload(currentPiece, blocks)).foreach{ case (moved, unloaded) =>
+      blocks = load(moved, unloaded)
+      currentPiece = moved
+    }
     this
+  }
+
+  private[this] def validate(piece: Piece, blocks: Seq[Block]): Option[(Piece, Seq[Block])] = {
+    if (piece.current.map(_.pos).forall(inBounds)) Some(piece, blocks)
+    else None
+  }
+
+  private[this] def inBounds(pos: (Int, Int)): Boolean = {
+    (pos._1 >= 0) && (pos._1 < size._1) && (pos._2 >= 0) && (pos._2 < size._2)
   }
 
   private[this] def unload(piece: Piece, blocks: Seq[Block]): Seq[Block] = {
